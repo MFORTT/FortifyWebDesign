@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concept Work — Fortify Web Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0F0F12;
+    --surface: #1C1A2E;
+    --purple: #7F77DD;
+    --purple-light: #AFA9EC;
+    --orange: #E8703A;
+    --white: #F5F4FF;
+    --gray: #888899;
+    --border: rgba(127,119,221,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--white);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  nav {
+    padding: 1.5rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .logo-bar {
+    width: 3px;
+    height: 20px;
+    background: linear-gradient(to bottom, var(--purple), var(--orange));
+    border-radius: 2px;
+  }
+
+  .nav-link {
+    text-decoration: none;
+    color: var(--gray);
+    font-size: 0.85rem;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+
+  .nav-link:hover { color: var(--white); }
+
+  /* HERO */
+  .hero {
+    padding: 6rem 3rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(127,119,221,0.1);
+    border: 1px solid var(--border);
+    color: var(--purple-light);
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.1s;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.25s;
+  }
+
+  .hero h1 span { color: var(--purple); }
+
+  .hero p {
+    font-size: 1rem;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 520px;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.4s;
+  }
+
+  .concept-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--orange);
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.55s;
+  }
+
+  /* PROJECTS */
+  .projects {
+    padding: 3rem 3rem 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .project-card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    background: rgba(28, 26, 46, 0.4);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.3s, transform 0.2s;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .project-card:nth-child(1) { animation-delay: 0.1s; }
+  .project-card:nth-child(2) { animation-delay: 0.2s; }
+  .project-card:nth-child(3) { animation-delay: 0.3s; }
+
+  .project-card:hover {
+    border-color: rgba(127,119,221,0.4);
+    transform: translateY(-2px);
+  }
+
+  .project-preview {
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .preview-coastal {
+    background: linear-gradient(135deg, #B8D4BA 0%, #EDE4D0 50%, #E8A882 100%);
+  }
+
+  .preview-vega {
+    background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 50%, #2d0a0a 100%);
+    border-right: 1px solid rgba(232,40,11,0.2);
+  }
+
+  .preview-salty {
+    background: linear-gradient(135deg, #0C0B09 0%, #1C1A17 50%, #2A2215 100%);
+    border-right: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .project-info {
+    padding: 2.5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .project-category {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .cat-health { color: #7A9E7E; }
+  .cat-fitness { color: #E8280B; }
+  .cat-food { color: #C9A84C; }
+
+  .project-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+  }
+
+  .project-location {
+    font-size: 0.82rem;
+    color: var(--gray);
+    margin-bottom: 1.2rem;
+    font-weight: 300;
+  }
+
+  .project-desc {
+    font-size: 0.9rem;
+    color: var(--gray);
+    line-height: 1.7;
+    font-weight: 300;
+    max-width: 420px;
+    margin-bottom: 2rem;
+  }
+
+  .project-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .tag {
+    background: rgba(127,119,221,0.08);
+    border: 1px solid var(--border);
+    color: var(--purple-light);
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+    font-size: 0.72rem;
+    font-weight: 400;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--purple-light);
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: gap 0.2s, color 0.2s;
+  }
+
+  .project-card:hover .project-link {
+    gap: 0.8rem;
+    color: var(--white);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  footer p {
+    font-size: 0.82rem;
+    color: var(--gray);
+    font-weight: 300;
+  }
+
+  .footer-cta {
+    text-decoration: none;
+    color: var(--orange);
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .footer-cta:hover { color: var(--white); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    .project-card { grid-template-columns: 1fr; }
+    .project-preview { height: 180px; }
+    .hero { padding: 4rem 1.5rem 2rem; }
+    .projects { padding: 2rem 1.5rem 4rem; }
+    nav { padding: 1.2rem 1.5rem; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 0.8rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-bar"></div>
+    Fortify Web Design
+  </a>
+  <a href="https://fortifywebdesign.com" class="nav-link" target="_blank">← Back to main site</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">✦ Concept work</div>
+  <h1>Designed for<br><span>San Diego</span></h1>
+  <p>Three fictional San Diego businesses, built as fully functional websites to showcase range across industries, aesthetics, and audiences.</p>
+  <div class="concept-note">⚠ These are concept designs — not real businesses.</div>
+</section>
+
+<section class="projects">
+
+  <a href="coastal-paws/index.html" class="project-card">
+    <div class="project-preview preview-coastal">🐾</div>
+    <div class="project-info">
+      <div class="project-category cat-health">Veterinary · Healthcare</div>
+      <div class="project-name">Coastal Paws Veterinary Clinic</div>
+      <div class="project-location">Pacific Beach, San Diego</div>
+      <p class="project-desc">A warm, approachable vet clinic website built around trust signals, appointment booking, and a soft coastal palette. Designed to appeal to pet owners who want a neighborhood feel with professional care.</p>
+      <div class="project-tags">
+        <span class="tag">Soft palette</span>
+        <span class="tag">Booking form</span>
+        <span class="tag">Trust signals</span>
+        <span class="tag">Scroll reveal</span>
+        <span class="tag">Mobile-first</span>
+      </div>
+      <div class="project-link">View project →</div>
+    </div>
+  </a>
+
+  <a href="vega-strength/index.html" class="project-card">
+    <div class="project-preview preview-vega">💪</div>
+    <div class="project-info">
+      <div class="project-category cat-fitness">Fitness · Sports Performance</div>
+      <div class="project-name">Vega Strength & Performance</div>
+      <div class="project-location">Chula Vista, San Diego</div>
+      <p class="project-desc">A bold, high-energy gym site with dramatic typography, class schedules, coach profiles, and a conversion-heavy free trial CTA. Dark, aggressive, and built to energize.</p>
+      <div class="project-tags">
+        <span class="tag">Dark theme</span>
+        <span class="tag">Class schedule</span>
+        <span class="tag">Free trial CTA</span>
+        <span class="tag">Bold typography</span>
+        <span class="tag">Mobile-first</span>
+      </div>
+      <div class="project-link">View project →</div>
+    </div>
+  </a>
+
+  <a href="salty-palate/index.html" class="project-card">
+    <div class="project-preview preview-salty">🍽</div>
+    <div class="project-info">
+      <div class="project-category cat-food">Restaurant · Fine Dining</div>
+      <div class="project-name">The Salty Palate</div>
+      <div class="project-location">Little Italy, San Diego</div>
+      <p class="project-desc">An elegant restaurant site with a dark luxury aesthetic, seasonal menu display, gallery strip, and reservation form. Lifestyle branding meets coastal fine dining.</p>
+      <div class="project-tags">
+        <span class="tag">Luxury aesthetic</span>
+        <span class="tag">Menu display</span>
+        <span class="tag">Reservations</span>
+        <span class="tag">Animated gallery</span>
+        <span class="tag">Mobile-first</span>
+      </div>
+      <div class="project-link">View project →</div>
+    </div>
+  </a>
+
+</section>
+
+<footer>
+  <p>© 2025 Fortify Web Design · Michelle Fort · San Diego, CA</p>
+  <a href="https://fortifywebdesign.com" class="footer-cta" target="_blank">Hire me for your project →</a>
+</footer>
+
+</body>
+</html>

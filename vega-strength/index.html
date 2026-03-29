@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vega Strength & Performance — Chula Vista, San Diego</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #1A1A1A;
+    --dark3: #242424;
+    --red: #E8280B;
+    --red-dark: #B81E08;
+    --red-glow: rgba(232, 40, 11, 0.15);
+    --yellow: #F5C518;
+    --white: #FFFFFF;
+    --gray: #888888;
+    --gray-light: #CCCCCC;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(232,40,11,0.2);
+  }
+
+  .logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .logo span { color: var(--red); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--gray);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-cta {
+    background: var(--red) !important;
+    color: white !important;
+    padding: 0.55rem 1.4rem;
+    border-radius: 4px;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--red-dark) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 2.5rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 70% 50%, rgba(232,40,11,0.08) 0%, transparent 60%),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 80px,
+        rgba(255,255,255,0.015) 80px,
+        rgba(255,255,255,0.015) 81px
+      );
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards 0.2s;
+  }
+
+  .eyebrow-line {
+    width: 40px;
+    height: 2px;
+    background: var(--red);
+  }
+
+  .eyebrow-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+
+  .hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(5rem, 12vw, 10rem);
+    font-weight: 900;
+    line-height: 0.88;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    max-width: 900px;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards 0.35s;
+  }
+
+  .hero h1 .outline {
+    -webkit-text-stroke: 2px var(--white);
+    color: transparent;
+  }
+
+  .hero h1 .red { color: var(--red); }
+
+  .hero-bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 3rem;
+    gap: 3rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards 0.55s;
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 380px;
+    font-weight: 300;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+
+  .btn-primary {
+    background: var(--red);
+    color: white;
+    padding: 1rem 2.2rem;
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary:hover {
+    background: var(--red-dark);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--white);
+    padding: 1rem 2.2rem;
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--white);
+    background: rgba(255,255,255,0.05);
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--dark2);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 2rem 2.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 4rem;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--red);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--gray);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+    font-weight: 400;
+  }
+
+  /* PROGRAMS */
+  .programs {
+    padding: 6rem 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .section-sub {
+    color: var(--gray);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 480px;
+    font-weight: 300;
+    margin-bottom: 3rem;
+  }
+
+  .programs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .program-card {
+    background: var(--dark);
+    padding: 2.5rem;
+    transition: background 0.2s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .program-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--red);
+    transition: height 0.3s ease;
+  }
+
+  .program-card:hover { background: var(--dark2); }
+  .program-card:hover::before { height: 100%; }
+
+  .program-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .program-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.8rem;
+    color: var(--white);
+  }
+
+  .program-card p {
+    font-size: 0.88rem;
+    color: var(--gray);
+    line-height: 1.65;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+
+  .program-tag {
+    display: inline-block;
+    background: var(--red-glow);
+    color: var(--red);
+    border: 1px solid rgba(232,40,11,0.3);
+    padding: 0.3rem 0.8rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 2px;
+  }
+
+  /* FREE TRIAL */
+  .free-trial {
+    background: var(--red);
+    padding: 5rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .free-trial::before {
+    content: 'FREE TRIAL';
+    position: absolute;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20rem;
+    font-weight: 900;
+    color: rgba(0,0,0,0.1);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: -0.05em;
+  }
+
+  .free-trial h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .free-trial p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.8);
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+
+  .btn-white {
+    background: white;
+    color: var(--red);
+    padding: 1rem 3rem;
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .btn-white:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+
+  /* SCHEDULE */
+  .schedule {
+    padding: 6rem 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  .day-col h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid rgba(232,40,11,0.3);
+  }
+
+  .class-slot {
+    background: var(--dark2);
+    border-radius: 6px;
+    padding: 0.8rem;
+    margin-bottom: 0.6rem;
+    border-left: 2px solid var(--dark3);
+    transition: border-color 0.2s;
+  }
+
+  .class-slot:hover { border-left-color: var(--red); }
+
+  .slot-time {
+    font-size: 0.7rem;
+    color: var(--gray);
+    font-weight: 400;
+    margin-bottom: 0.2rem;
+  }
+
+  .slot-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--white);
+  }
+
+  .slot-trainer {
+    font-size: 0.68rem;
+    color: var(--gray);
+    margin-top: 0.2rem;
+  }
+
+  /* COACHES */
+  .coaches {
+    padding: 6rem 2.5rem;
+    background: var(--dark);
+  }
+
+  .coaches-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .coaches-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .coach-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+
+  .coach-img {
+    width: 100%;
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    position: relative;
+  }
+
+  .coach-img-1 { background: linear-gradient(160deg, #1a1a2e 0%, #2d1b1b 100%); }
+  .coach-img-2 { background: linear-gradient(160deg, #1a2d1a 0%, #2d2d1b 100%); }
+  .coach-img-3 { background: linear-gradient(160deg, #1b1b2d 0%, #2d1a2d 100%); }
+
+  .coach-info {
+    padding: 1.2rem 0;
+  }
+
+  .coach-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .coach-role {
+    font-size: 0.8rem;
+    color: var(--red);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 0.2rem;
+  }
+
+  .coach-certs {
+    font-size: 0.78rem;
+    color: var(--gray);
+    margin-top: 0.5rem;
+    font-weight: 300;
+  }
+
+  /* TESTIMONIALS */
+  .testimonials {
+    padding: 6rem 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .review-card {
+    background: var(--dark2);
+    border-radius: 4px;
+    padding: 2rem;
+    border-top: 2px solid var(--red);
+  }
+
+  .stars {
+    color: var(--yellow);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+  }
+
+  .review-text {
+    font-size: 0.9rem;
+    color: var(--gray-light);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .reviewer-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .reviewer-detail {
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-top: 0.2rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark2);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 4rem 2.5rem 2rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+  }
+
+  .footer-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    display: block;
+    text-decoration: none;
+    color: white;
+  }
+
+  .footer-logo span { color: var(--red); }
+
+  .footer-brand p {
+    font-size: 0.85rem;
+    color: var(--gray);
+    line-height: 1.7;
+    font-weight: 300;
+    max-width: 260px;
+  }
+
+  .footer-col h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+
+  .footer-col a {
+    text-decoration: none;
+    color: var(--gray);
+    font-size: 0.85rem;
+    font-weight: 300;
+    transition: color 0.2s;
+  }
+
+  .footer-col a:hover { color: var(--red); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: var(--gray);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .concept-badge {
+    background: var(--red);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .programs-grid { grid-template-columns: 1fr; }
+    .schedule-grid { grid-template-columns: 1fr 1fr; }
+    .coaches-grid { grid-template-columns: 1fr; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .stat-item { padding: 0 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">VEGA <span>STRENGTH</span></a>
+  <ul class="nav-links">
+    <li><a href="#programs">Programs</a></li>
+    <li><a href="#schedule">Schedule</a></li>
+    <li><a href="#coaches">Coaches</a></li>
+    <li><a href="#trial" class="nav-cta">Free Trial</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-eyebrow">
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">Chula Vista, San Diego</span>
+  </div>
+  <h1>
+    BUILD<br>
+    <span class="outline">YOUR</span><br>
+    <span class="red">BEST</span>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-sub">Elite strength and conditioning for athletes and everyday warriors. No excuses. No shortcuts. Just results.</p>
+    <div class="hero-btns">
+      <a href="#trial" class="btn-primary">Start Free Trial →</a>
+      <a href="#programs" class="btn-secondary">View Programs</a>
+    </div>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stat-item reveal">
+    <span class="stat-num">850+</span>
+    <span class="stat-label">Active Members</span>
+  </div>
+  <div class="stat-item reveal">
+    <span class="stat-num">12</span>
+    <span class="stat-label">Expert Coaches</span>
+  </div>
+  <div class="stat-item reveal">
+    <span class="stat-num">30+</span>
+    <span class="stat-label">Weekly Classes</span>
+  </div>
+  <div class="stat-item reveal">
+    <span class="stat-num">6 yrs</span>
+    <span class="stat-label">In Chula Vista</span>
+  </div>
+</div>
+
+<section class="programs" id="programs">
+  <div class="reveal">
+    <div class="section-eyebrow">Training programs</div>
+    <h2 class="section-title">Find your program</h2>
+    <p class="section-sub">Whether you're chasing a PR or just starting out, we have a program built for your level and your goals.</p>
+  </div>
+  <div class="programs-grid">
+    <div class="program-card reveal">
+      <div class="program-num">01</div>
+      <h3>Powerlifting</h3>
+      <p>Structured periodization for squat, bench, and deadlift. Compete-ready programming for all experience levels.</p>
+      <span class="program-tag">4x / week</span>
+    </div>
+    <div class="program-card reveal">
+      <div class="program-num">02</div>
+      <h3>Athletic Conditioning</h3>
+      <p>Sport-specific strength, speed, and agility training. Built for athletes who compete at the high school and collegiate level.</p>
+      <span class="program-tag">3–5x / week</span>
+    </div>
+    <div class="program-card reveal">
+      <div class="program-num">03</div>
+      <h3>CrossFit-Style WODs</h3>
+      <p>High-intensity functional movements in a group setting. Community-driven, constantly varied, always challenging.</p>
+      <span class="program-tag">Daily classes</span>
+    </div>
+    <div class="program-card reveal">
+      <div class="program-num">04</div>
+      <h3>Personal Training</h3>
+      <p>One-on-one sessions with a certified coach. Custom programming, nutrition guidance, and full accountability.</p>
+      <span class="program-tag">Flexible schedule</span>
+    </div>
+    <div class="program-card reveal">
+      <div class="program-num">05</div>
+      <h3>Foundations</h3>
+      <p>The perfect starting point for beginners. Learn movement patterns, build a base, and gain confidence on the floor.</p>
+      <span class="program-tag">Beginner friendly</span>
+    </div>
+    <div class="program-card reveal">
+      <div class="program-num">06</div>
+      <h3>Open Gym</h3>
+      <p>Full facility access for members who want to train on their own schedule. Available 5AM–10PM daily.</p>
+      <span class="program-tag">Members only</span>
+    </div>
+  </div>
+</section>
+
+<section class="free-trial" id="trial">
+  <h2 class="reveal">Your first week is on us</h2>
+  <p class="reveal">Try any class, any program, zero commitment. Come see what Vega is about.</p>
+  <a href="#" class="btn-white reveal">Claim Free Trial</a>
+</section>
+
+<section class="schedule" id="schedule">
+  <div class="reveal">
+    <div class="section-eyebrow">Class schedule</div>
+    <h2 class="section-title">This week's classes</h2>
+    <p class="section-sub">Classes run Monday through Saturday. Book your spot online — popular sessions fill up fast.</p>
+  </div>
+  <div class="schedule-grid">
+    <div class="day-col reveal">
+      <h4>Monday</h4>
+      <div class="class-slot">
+        <div class="slot-time">5:30 AM</div>
+        <div class="slot-name">Powerlifting</div>
+        <div class="slot-trainer">Coach Vega</div>
+      </div>
+      <div class="class-slot">
+        <div class="slot-time">7:00 AM</div>
+        <div class="slot-name">WOD</div>
+        <div class="slot-trainer">Coach Rivera</div>
+      </div>
+      <div class="class-slot">
+        <div class="slot-time">6:00 PM</div>
+        <div class="slot-name">Athletic Cond.</div>
+        <div class="slot-trainer">Coach Kim</div>
+      </div>
+    </div>
+    <div class="day-col reveal">
+      <h4>Tuesday</h4>
+      <div class="class-slot">
+        <div class="slot-time">6:00 AM</div>
+        <div class="slot-name">Foundations</div>
+        <div class="slot-trainer">Coach Rivera</div>
+      </div>
+      <div class="class-slot">
+        <div class="slot-time">12:00 PM</div>
+        <div class="slot-name">WOD</div>
+        <div class="slot-trainer">Coach Vega</div>
+      </div>
+      <div class="class-slot">
+        <div class="slot-time">5:30 PM</div>
+        <div class="slot-name">Powerlifting</div>
+        <div class="slot-trainer">Coach Kim</div>
+      </div>
+    </div>
+    <div class="day-col reveal">
+      <h4>Wednesday</h4>
+      <div class="class-slot">
+        <div class="slot-time">5:30 AM</div>
+        <div class="slot-name">WOD</div>
+        <div class="slot-trainer">Coach Vega</div>
+      </div>
+      <div class="class-slot">
+        <div class="slot-time">7:00 AM</div>
+        <div class="slot-name">Athletic Cond.</div>
+        <div class="slot-trainer">Coach Kim</div>
+      </div>
+      <div class="class-slot">
+        <div class="slot-time">6:00 PM</div>
+        <div class="slot-name">Foundations</div>
+        <div class="slot-trainer">Coach Rivera</div>
+      </div>
+    </div>
+    <div class="day-col reveal">
+      <h4>Thursday</h4>
+      <div class="class-slot">
+        <div class="slot-time">6:00 AM</div>
+        <div class="slot-name">Powerlifting</div>
+        <div class="slot-trainer">Coach Vega</div>
+      </div>
+      <div class="class-slot">
+        <div class="slot-time">12:00 PM</div>
+        <div class="slot-name">WOD</div>
+        <div class="slot-trainer">Coach Rivera</div>
+      </div>
+      <div class="class-slot">
+        <div class="slot-time">5:30 PM</div>
+        <div class="slot-name">Athletic Cond.</div>
+        <div class="slot-trainer">Coach Kim</div>
+      </div>
+    </div>
+    <div class="day-col reveal">
+      <h4>Friday</h4>
+      <div class="class-slot">
+        <div class="slot-time">5:30 AM</div>
+        <div class="slot-name">WOD</div>
+        <div class="slot-trainer">Coach Vega</div>
+      </div>
+      <div class="class-slot">
+        <div class="slot-time">7:00 AM</div>
+        <div class="slot-name">Powerlifting</div>
+        <div class="slot-trainer">Coach Kim</div>
+      </div>
+      <div class="class-slot">
+        <div class="slot-time">6:00 PM</div>
+        <div class="slot-name">Foundations</div>
+        <div class="slot-trainer">Coach Rivera</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="coaches" id="coaches">
+  <div class="coaches-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">The team</div>
+      <h2 class="section-title">Your coaches</h2>
+      <p class="section-sub">Every coach at Vega is certified, experienced, and obsessed with helping you hit your goals.</p>
+    </div>
+    <div class="coaches-grid">
+      <div class="coach-card reveal">
+        <div class="coach-img coach-img-1">💪</div>
+        <div class="coach-info">
+          <div class="coach-name">Marcus Vega</div>
+          <div class="coach-role">Head Coach & Founder</div>
+          <div class="coach-certs">CSCS · USAW Level 2 · 15 years coaching</div>
+        </div>
+      </div>
+      <div class="coach-card reveal">
+        <div class="coach-img coach-img-2">🏋️</div>
+        <div class="coach-info">
+          <div class="coach-name">Diana Rivera</div>
+          <div class="coach-role">Strength & Conditioning</div>
+          <div class="coach-certs">NSCA-CPT · CrossFit L2 · Former D1 Athlete</div>
+        </div>
+      </div>
+      <div class="coach-card reveal">
+        <div class="coach-img coach-img-3">🥇</div>
+        <div class="coach-info">
+          <div class="coach-name">James Kim</div>
+          <div class="coach-role">Athletic Performance</div>
+          <div class="coach-certs">ACSM-CPT · NASM · Sports Nutrition Cert</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <div class="reveal">
+      <div class="section-eyebrow">Results</div>
+      <h2 class="section-title">Members don't lie</h2>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Added 60 lbs to my deadlift in 4 months. Coach Vega's programming is the real deal — not just randomized workouts."</p>
+        <div class="reviewer-name">Carlos M.</div>
+        <div class="reviewer-detail">Powerlifting member · 8 months</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"I've tried four gyms in Chula Vista. Nothing comes close to the coaching quality and community here. Worth every penny."</p>
+        <div class="reviewer-name">Priya S.</div>
+        <div class="reviewer-detail">Athletic conditioning · 1 year</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Started in Foundations knowing nothing. Now I'm competing. The progression here is real and the coaches genuinely care."</p>
+        <div class="reviewer-name">Tyler B.</div>
+        <div class="reviewer-detail">Foundations → Powerlifting · 14 months</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="footer-logo">VEGA <span>STRENGTH</span></a>
+      <p>Elite strength and conditioning in the heart of Chula Vista. Built for athletes. Open to everyone.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Programs</h4>
+      <ul>
+        <li><a href="#">Powerlifting</a></li>
+        <li><a href="#">Athletic Conditioning</a></li>
+        <li><a href="#">CrossFit WODs</a></li>
+        <li><a href="#">Personal Training</a></li>
+        <li><a href="#">Foundations</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Gym</h4>
+      <ul>
+        <li><a href="#">About Vega</a></li>
+        <li><a href="#">Our Coaches</a></li>
+        <li><a href="#">Membership</a></li>
+        <li><a href="#">Free Trial</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Visit</h4>
+      <ul>
+        <li><a href="#">832 Broadway, Suite 4</a></li>
+        <li><a href="#">Chula Vista, CA 91910</a></li>
+        <li><a href="#">(619) 555-0187</a></li>
+        <li><a href="#">Mon–Sat 5AM–10PM</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Vega Strength & Performance. All rights reserved.</span>
+    <span class="concept-badge">Concept Design — Fortify Web Design</span>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
